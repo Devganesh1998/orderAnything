@@ -1,5 +1,5 @@
-import { CART_STAGE } from '../../config';
-import customers from './customers';
+const { CART_STAGE } = require('../../config');
+const customers = require('./customers');
 
 module.exports = (sequelize, DataTypes) => {
     const carts = sequelize.define(

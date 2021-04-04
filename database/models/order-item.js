@@ -1,6 +1,6 @@
-import orders from './orders';
-import items from './items';
-import addresses from './addresses';
+const orders = require('./orders');
+const items = require('./items');
+const addresses = require('./addresses');
 
 module.exports = (sequelize, DataTypes) => {
     const orderItem = sequelize.define(

@@ -1,5 +1,5 @@
-import carts from './carts';
-import items from './items';
+const carts = require('./carts');
+const items = require('./items');
 
 module.exports = (sequelize, DataTypes) => {
     const cartItem = sequelize.define(

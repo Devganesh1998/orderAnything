@@ -1,6 +1,6 @@
-import { ORDER_STAGE, PAYMENT_MODE } from '../../config';
-import customers from './customers';
-import deliveryPerson from './deliveryPerson';
+const { ORDER_STAGE, PAYMENT_MODE } = require('../../config');
+const customers = require('./customers');
+const deliveryPerson = require('./deliveryPerson');
 
 module.exports = (sequelize, DataTypes) => {
     const orders = sequelize.define(

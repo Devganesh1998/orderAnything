@@ -1,4 +1,4 @@
-import { ACCOUNT_TYPE, USER_TYPE } from '../../config';
+const { ACCOUNT_TYPE, USER_TYPE } = require('../../config');
 
 module.exports = (sequelize, DataTypes) => {
     const users = sequelize.define(
