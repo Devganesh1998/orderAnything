@@ -1,3 +1,6 @@
+import addresses from './addresses';
+import items from './items';
+
 module.exports = (sequelize, DataTypes) => {
     const itemAddress = sequelize.define(
         'item-address',
@@ -12,10 +15,12 @@ module.exports = (sequelize, DataTypes) => {
             },
             addressId: {
                 allowNull: false,
+                validate: { isUUID: 4 },
                 type: DataTypes.UUID,
             },
             itemId: {
                 allowNull: false,
+                validate: { isUUID: 4 },
                 type: DataTypes.UUID,
             },
         },
@@ -24,5 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'item-address',
         },
     );
+    itemAddress.belongsTo(addresses, { foreignKey: 'addressId' });
+    itemAddress.belongsTo(items, { foreignKey: 'itemId' });
     return itemAddress;
 };
