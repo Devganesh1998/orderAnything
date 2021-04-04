@@ -1,5 +1,4 @@
 const { CART_STAGE } = require('../../config');
-const customers = require('./customers');
 
 module.exports = (sequelize, DataTypes) => {
     const carts = sequelize.define(
@@ -24,11 +23,14 @@ module.exports = (sequelize, DataTypes) => {
             indexes: [{ fields: ['stage'] }],
         },
     );
-    carts.belongsTo(customers, {
-        foreignKey: 'customerId',
-        allowNull: false,
-        validate: { isUUID: 4 },
-        type: DataTypes.UUID,
-    });
+
+    carts.associate = (models) => {
+        carts.belongsTo(models.customers, {
+            foreignKey: 'customerId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+    };
     return carts;
 };

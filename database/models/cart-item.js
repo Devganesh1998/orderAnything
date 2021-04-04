@@ -1,6 +1,3 @@
-const carts = require('./carts');
-const items = require('./items');
-
 module.exports = (sequelize, DataTypes) => {
     const cartItem = sequelize.define(
         'cart-item',
@@ -24,17 +21,19 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'cart-item',
         },
     );
-    cartItem.belongsTo(carts, {
-        foreignKey: 'cartId',
-        allowNull: false,
-        validate: { isUUID: 4 },
-        type: DataTypes.UUID,
-    });
-    cartItem.belongsTo(items, {
-        foreignKey: 'cartId',
-        allowNull: false,
-        validate: { isUUID: 4 },
-        type: DataTypes.UUID,
-    });
+    cartItem.associate = (models) => {
+        cartItem.belongsTo(models.carts, {
+            foreignKey: 'cartId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+        cartItem.belongsTo(models.items, {
+            foreignKey: 'cartId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+    };
     return cartItem;
 };

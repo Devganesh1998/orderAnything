@@ -1,7 +1,3 @@
-const orders = require('./orders');
-const items = require('./items');
-const addresses = require('./addresses');
-
 module.exports = (sequelize, DataTypes) => {
     const orderItem = sequelize.define(
         'order-item',
@@ -14,21 +10,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            orderId: {
-                allowNull: false,
-                validate: { isUUID: 4 },
-                type: DataTypes.UUID,
-            },
-            itemId: {
-                allowNull: false,
-                validate: { isUUID: 4 },
-                type: DataTypes.UUID,
-            },
-            pickupLocation: {
-                allowNull: false,
-                validate: { isUUID: 4 },
-                type: DataTypes.UUID,
-            },
             quantity: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
@@ -39,8 +20,25 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'order-item',
         },
     );
-    orderItem.belongsTo(orders, { foreignKey: 'addressId' });
-    orderItem.belongsTo(items, { foreignKey: 'itemId' });
-    orderItem.belongsTo(addresses, { foreignKey: 'pickupLocation' });
+    orderItem.associate = (models) => {
+        orderItem.belongsTo(models.orders, {
+            foreignKey: 'orderId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+        orderItem.belongsTo(models.items, {
+            foreignKey: 'itemId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+        orderItem.belongsTo(models.addresses, {
+            foreignKey: 'pickupLocation',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+    };
     return orderItem;
 };

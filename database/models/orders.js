@@ -1,6 +1,4 @@
 const { ORDER_STAGE, PAYMENT_MODE } = require('../../config');
-const customers = require('./customers');
-const deliveryPerson = require('./deliveryPerson');
 
 module.exports = (sequelize, DataTypes) => {
     const orders = sequelize.define(
@@ -41,7 +39,20 @@ module.exports = (sequelize, DataTypes) => {
             indexes: [{ fields: ['stage', 'paymentMode'] }],
         },
     );
-    orders.belongsTo(customers, { foreignKey: 'customerId', allowNull: false });
-    orders.belongsTo(deliveryPerson, { foreignKey: 'deliveryPersonId', allowNull: false });
+    orders.associate = (models) => {
+        orders.belongsTo(models.customers, {
+            foreignKey: 'customerId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+        orders.belongsTo(models.deliveryPerson, {
+            foreignKey: 'deliveryPersonId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+    };
+
     return orders;
 };

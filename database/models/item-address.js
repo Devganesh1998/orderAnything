@@ -1,6 +1,3 @@
-const addresses = require('./addresses');
-const items = require('./items');
-
 module.exports = (sequelize, DataTypes) => {
     const itemAddress = sequelize.define(
         'item-address',
@@ -13,23 +10,26 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
             },
-            addressId: {
-                allowNull: false,
-                validate: { isUUID: 4 },
-                type: DataTypes.UUID,
-            },
-            itemId: {
-                allowNull: false,
-                validate: { isUUID: 4 },
-                type: DataTypes.UUID,
-            },
         },
         {
             timestamps: true,
             tableName: 'item-address',
         },
     );
-    itemAddress.belongsTo(addresses, { foreignKey: 'addressId' });
-    itemAddress.belongsTo(items, { foreignKey: 'itemId' });
+    itemAddress.associate = (models) => {
+        itemAddress.belongsTo(models.addresses, {
+            foreignKey: 'addressId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+        itemAddress.belongsTo(models.items, {
+            foreignKey: 'itemId',
+            allowNull: false,
+            validate: { isUUID: 4 },
+            type: DataTypes.UUID,
+        });
+    };
+
     return itemAddress;
 };
