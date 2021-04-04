@@ -2,12 +2,12 @@ const ACCOUNT_TYPE = {
     CUSTOMER: 'CUSTOMER',
     DELIVERY: 'DELIVERY',
     ADMIN: 'ADMIN',
-}
+};
 
 const USER_TYPE = {
     INTERNAL: 'INTERNAL',
     EXTERNAL: 'EXTERNAL',
-}
+};
 
 const ORDER_STAGE = {
     TASK_CREATED: 'TASK_CREATED',
@@ -16,27 +16,24 @@ const ORDER_STAGE = {
     ENROUTE: 'ENROUTE',
     DELIVERED: 'DELIVERED',
     CANCELED: 'CANCELED',
-}
+};
 
 const PAYMENT_MODE = {
     CASH: 'CASH',
     CARD: 'CARD',
     UPI: 'UPI',
-}
+};
 
 const CART_STAGE = {
     OPEN: 'OPEN',
     DISCARD: 'DISCARD',
     CHECKED_OUT: 'CHECKED_OUT',
-}
+};
 
 const PORT = process.env.PORT || 4500;
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === 'development';
 
-const ALLOWED_ORIGINS = [
-    process.env.ALLOWED_ORIGIN,
-    "http://localhost:3000",
-];
+const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGIN, 'http://localhost:3000'];
 
 export default {
     ACCOUNT_TYPE,
@@ -46,5 +43,5 @@ export default {
     CART_STAGE,
     PORT,
     isDev,
-    ALLOWED_ORIGINS
-}
+    ALLOWED_ORIGINS,
+};
