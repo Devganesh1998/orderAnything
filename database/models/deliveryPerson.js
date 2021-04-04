@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 unique: true,
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                validate: { isUUID: 4 },
             },
             ordersCount: {
                 type: DataTypes.INTEGER,
@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         {
+            timestamps: true,
             tableName: 'deliveryPerson',
         },
     );

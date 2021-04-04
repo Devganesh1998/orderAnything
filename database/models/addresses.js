@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 unique: true,
                 type: DataTypes.UUID,
+                validate: { isUUID: 4 },
                 defaultValue: DataTypes.UUIDV4,
             },
             address: {
@@ -21,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         {
+            timestamps: true,
             tableName: 'addresses',
         },
     );

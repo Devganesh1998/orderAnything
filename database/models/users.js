@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
                 unique: true,
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
+                validate: { isUUID: 4 },
             },
             fullName: {
                 type: DataTypes.STRING,
             },
             phoneNo: {
-                allowNull: false,
                 type: DataTypes.INTEGER,
                 unique: true,
             },
@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(20),
             },
             email: {
+                unique: true,
                 type: DataTypes.STRING,
+                validate: { isEmail: true },
             },
             accountType: {
                 allowNull: false,
@@ -49,6 +51,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             tableName: 'users',
+            timestamps: true,
+            indexes: [{ fields: ['accountType'] }],
         },
     );
     return users;
