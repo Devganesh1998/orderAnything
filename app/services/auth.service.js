@@ -4,7 +4,7 @@ const sql = require('../../database/models');
 module.exports = {
     async getUserFromPhoneNo(phoneNo) {
         const [user] =
-            (await sql.sequelize.query('SELECT * from users WHERE phoneNo = :phoneNo', {
+            (await sql.sequelize.query('SELECT * from users WHERE "phoneNo" = :phoneNo', {
                 replacements: {
                     phoneNo,
                 },

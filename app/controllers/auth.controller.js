@@ -13,11 +13,13 @@ class AuthController {
             const user = email
                 ? await this.#service.getUserFromEmail(email)
                 : await this.#service.getUserFromPhoneNo(phoneNo);
-            if (user.password === password) {
-                res.send(user);
-            } else {
+            if (!user) {
+                res.status(404).json({ error_msg: 'User not found with given email/PhoneNo' });
+            }
+            if (user.password !== password) {
                 res.status(400).json({ error_msg: 'Incorrect password' });
             }
+            res.send(user);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error_msg: 'Internal server error' });
