@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
                 unique: true,
             },
             countryCode: {
-                allowNull: false,
                 type: DataTypes.STRING(20),
             },
             email: {

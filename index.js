@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const db = require('./database/models');
 const { PORT, isDev, ALLOWED_ORIGINS } = require('./config');
+const apiRoutes = require('./app/routes');
 
 const app = express();
 app.use(cookieParser());
@@ -32,9 +33,7 @@ app.get('/info', (req, res) => {
     res.send('Welcome to Order Anything server');
 });
 
-// const apiRoutes = require("./app/routes");
-
-// app.use("/", apiRoutes);
+app.use('/', apiRoutes);
 
 (async () => {
     let retries = 5;
