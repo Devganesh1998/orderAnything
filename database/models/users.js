@@ -39,10 +39,6 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.TEXT('medium'),
             },
-            isAdmin: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false,
-            },
             accountVerified: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false,

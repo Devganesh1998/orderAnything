@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const authService = require('../services/auth.service');
+const filterOutputKeys = require('../utils/filterOutputKeys');
 
 class AuthController {
     #service;
@@ -32,7 +33,6 @@ class AuthController {
         try {
             const { email, fullName, password, accountType, userType, phoneNo, countryCode } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
-            console.log({ hashedPassword });
             const user = await this.#service.createUser(
                 fullName,
                 email,
@@ -62,6 +62,7 @@ class AuthController {
     async getAllUsers(req, res) {
         try {
             const users = await this.#service.getAllUsers();
+            users.forEach((user) => filterOutputKeys(user, ['password']));
             res.send({ users });
         } catch (error) {
             console.error(error);
