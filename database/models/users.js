@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
             },
             phoneNo: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 unique: true,
             },
             countryCode: {

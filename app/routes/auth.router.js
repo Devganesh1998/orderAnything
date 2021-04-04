@@ -17,6 +17,7 @@ router.post(
     sendMessageOnValidationFail,
     (...args) => authController.signIn(...args),
 );
+
 router.post(
     '/signup',
     [
@@ -42,5 +43,7 @@ router.post(
     sendMessageOnValidationFail,
     (...args) => authController.signUp(...args),
 );
+
+router.get('/users', (...args) => authController.getAllUsers(...args));
 
 module.exports = router;

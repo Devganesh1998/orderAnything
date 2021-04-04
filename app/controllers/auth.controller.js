@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const authService = require('../services/auth.service');
 
 class AuthController {
@@ -16,7 +17,8 @@ class AuthController {
             if (!user) {
                 res.status(404).json({ error_msg: 'User not found with given email/PhoneNo' });
             }
-            if (user.password !== password) {
+            const isPasswordMatched = await bcrypt.compare(password, user.password);
+            if (!isPasswordMatched) {
                 res.status(400).json({ error_msg: 'Incorrect password' });
             }
             res.send(user);
@@ -28,9 +30,39 @@ class AuthController {
 
     async signUp(req, res) {
         try {
-            const { email, fullName, password, accountType, userType } = req.body;
-            await this.#service.createUser(fullName, email, password, accountType, userType);
-            res.send({ message: 'Registration successfull' });
+            const { email, fullName, password, accountType, userType, phoneNo, countryCode } = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            console.log({ hashedPassword });
+            const user = await this.#service.createUser(
+                fullName,
+                email,
+                hashedPassword,
+                accountType,
+                userType,
+                phoneNo,
+                countryCode,
+            );
+            res.send({ message: 'Registration successfull', user });
+        } catch (error) {
+            console.error(error);
+            const { errors = [], message } = error;
+            if (message === 'Validation error') {
+                errors.forEach(({ type, path }) => {
+                    console.error({ type, path });
+                    if (type === 'unique violation') {
+                        return res.status(400).json({ message: `An account is already present with given ${path}` });
+                    }
+                    return false;
+                });
+            }
+            res.status(500).json({ error_msg: 'Internal server error' });
+        }
+    }
+
+    async getAllUsers(req, res) {
+        try {
+            const users = await this.#service.getAllUsers();
+            res.send({ users });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error_msg: 'Internal server error' });

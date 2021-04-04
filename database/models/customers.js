@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
             },
             credits: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 defaultValue: 0,
             },
             ordersCount: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 defaultValue: 0,
             },
             reviewsCount: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 defaultValue: 0,
             },
             address: {

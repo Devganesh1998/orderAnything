@@ -24,14 +24,21 @@ module.exports = {
         return user;
     },
 
-    async createUser(fullName, email, password, accountType, userType) {
+    async createUser(fullName, email, password, accountType, userType, phoneNo, countryCode) {
         const results = await sql.users.create({
             fullName,
             email,
             password,
             accountType,
             userType,
+            phoneNo,
+            countryCode,
         });
         return results;
+    },
+
+    async getAllUsers() {
+        const users = (await sql.sequelize.query('SELECT * from users;', { type: QueryTypes.SELECT })) || [];
+        return users;
     },
 };

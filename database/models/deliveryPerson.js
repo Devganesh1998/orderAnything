@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
                 validate: { isUUID: 4 },
             },
             ordersCount: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 defaultValue: 0,
             },
             reviewsCount: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 defaultValue: 0,
             },
             vehicleNo: {

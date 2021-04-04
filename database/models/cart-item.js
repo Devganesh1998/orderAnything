@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.UUID,
             },
             quantity: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT,
                 allowNull: false,
                 defaultValue: 1,
             },
