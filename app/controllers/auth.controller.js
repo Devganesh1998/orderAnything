@@ -22,7 +22,8 @@ class AuthController {
             if (!isPasswordMatched) {
                 res.status(400).json({ error_msg: 'Incorrect password' });
             }
-            res.send(user);
+            const authToken = await bcrypt.hash(`${email || phoneNo}##${new Date().valueOf()}`, 2);
+            res.send({ message: 'Login successfull', authToken });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error_msg: 'Internal server error' });
@@ -33,29 +34,28 @@ class AuthController {
         try {
             const { email, fullName, password, accountType, userType, phoneNo, countryCode } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await this.#service.createUser(
-                fullName,
-                email,
-                hashedPassword,
-                accountType,
-                userType,
-                phoneNo,
-                countryCode,
-            );
-            res.send({ message: 'Registration successfull', user });
+            const [authToken] = await Promise.all([
+                bcrypt.hash(`${email || phoneNo}##${new Date().valueOf()}`, 2),
+                this.#service.createUser(fullName, email, hashedPassword, accountType, userType, phoneNo, countryCode),
+            ]);
+            res.send({ message: 'Registration successfull', authToken });
         } catch (error) {
             console.error(error);
             const { errors = [], message } = error;
+            let isErrorHandled = false;
             if (message === 'Validation error') {
                 errors.forEach(({ type, path }) => {
                     console.error({ type, path });
                     if (type === 'unique violation') {
+                        isErrorHandled = true;
                         return res.status(400).json({ message: `An account is already present with given ${path}` });
                     }
                     return false;
                 });
             }
-            res.status(500).json({ error_msg: 'Internal server error' });
+            if (isErrorHandled === false) {
+                res.status(500).json({ error_msg: 'Internal server error' });
+            }
         }
     }
 
