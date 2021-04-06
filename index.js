@@ -39,6 +39,12 @@ app.use('/', apiRoutes);
     let retries = 5;
     while (retries) {
         try {
+            // eslint-disable-next-line global-require
+            const redis = require('./redisInstance');
+            redis.client.on('error', function (error) {
+                console.log(`An error occurred with redis:${error}`);
+            });
+
             await db.sequelize.sync();
             app.listen(PORT, () => {
                 console.log(`listening on: http://localhost:${PORT}`);
